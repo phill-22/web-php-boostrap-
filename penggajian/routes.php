@@ -29,6 +29,12 @@ switch ($page) {
     case "karyawan_tambah":
         include "pages/karyawan/karyawan_tambah.php";
         break;
+    case "karyawan_hapus":
+        include "pages/karyawan/karyawan_hapus.php";
+        break;
+    case "karyawan_ubah":
+        include "pages/karyawan/karyawana_ubah.php";
+        break;
     default:
         include "pages/404.php";
 }

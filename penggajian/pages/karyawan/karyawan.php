@@ -16,6 +16,7 @@ include "database/connection.php"
 <div class="row mt-3">
     <div class="col">
         <?php
+        $no = 1;
         $selectSQL = "SELECT K.*,B.nama nama_bagian FROM karyawan K LEFT JOIN bagian B ON K.bagian_id = B.id";
         $result = mysqli_query($connection, $selectSQL);
         if (!$result) {
