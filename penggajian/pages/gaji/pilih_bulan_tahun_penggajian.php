@@ -1,0 +1,109 @@
+<div id="top" class="row mb-3">
+    <div class="col">
+        <h3>Pilih Bulan dan Tahun Penggajian</h3>
+    </div>
+</div>
+<div id="pesan" class="row mb-3">
+    <div class="col">
+        <?php
+        include "database/connection.php";
+        $select_sql = "SELECT DISTINCT tahun FROM penggajian";
+        $result = mysqli_query($connection, $select_sql);
+        if (!$result) {
+        ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo mysqli_error($connection) ?>
+            </div>
+        <?php
+            return;
+        }
+        if (mysqli_num_rows($result) == 0) {
+        ?>
+            <div class="alert alert-danger" role="alert">
+                Data Kosong
+            </div>
+            <?php
+            return;
+        }
+
+        if (isset($_POST['lanjut'])) {
+
+            $bulan = $_POST['bulan'];
+            $tahun = $_POST['tahun'];
+            $checkSQL = "";
+            if ($bulan == "semua") {
+                if ($tahun == "semua") {
+                    $checkSQL = "SELECT * FROM penggajian";
+                } else {
+                    $checkSQL = "SELECT * FROM penggajian WHERE tahun = $tahun";
+                }
+            } else {
+                if ($tahun != "semua") {
+                    $checkSQL = "SELECT * FROM penggajian WHERE  tahun = $tahun AND bulan = $bulan ";
+                }
+            }
+            if ($checkSQL != "") {
+                $checkresult = mysqli_query($connection, $checkSQL);
+                if (mysqli_num_rows($checkresult) == 0) {
+            ?>
+
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-exclamation-circle"></i>
+                        Data dengan tahun dan bulan tersebut masih kosong
+                    </div>
+
+        <?php
+                } else {
+                    echo "<meta http-equiv='refresh' content='0;url=?page=penggajian&bulan=$bulan&tahun=$tahun'>";
+                }
+            }
+        }
+        ?>
+    </div>
+</div>
+<div id="inputan" class="row mb-3">
+    <div class="col">
+        <form action="" method="post">
+            <div class="card px-3">
+                <div class="mb-3 mt-3">
+                    <label for="bagian_id" class="form-label">Bulan</label>
+                    <select class="form-select" name="bulan" aria-label="Default select example" selected>
+                        <option value="semua">semua</option>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">mei</option>
+                        <option value="06">juni</option>
+                        <option value="07">juli</option>
+                        <option value="08">agustus</option>
+                        <option value="09">september</option>
+                        <option value="10">oktober</option>
+                        <option value="11">november</option>
+                        <option value="12">desember</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tahun" class="form-label">Tahun</label>
+                    <select name="tahun" class="form-select">
+                        <option value="semua" selected>semua</option>
+                        <?php
+                        while ($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                            <option value="<?php echo $row["tahun"] ?>"><?php echo $row["tahun"] ?></option>
+                        <?php
+                        }
+                        ?>
+
+                    </select>
+                </div>
+                <div class="col mb-3">
+                    <button class="btn btn-success" type="submit" name="lanjut">
+                        <i class="fa fa-arrow-circle-right"></i>
+                        Lanjut
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

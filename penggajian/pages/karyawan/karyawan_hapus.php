@@ -3,7 +3,7 @@
         <h3>Hapus Data Karyawan</h3>
     </div>
     <div class="col">
-        <a href="?page=bagian" class="btn btn-primary float-end">
+        <a href="?page=karyawan" class="btn btn-primary float-end">
             <i class="fa fa-arrow-circle-left"></i>
             Kembali
         </a>
@@ -13,9 +13,9 @@
     <div class="col">
         <?php
         include "database/connection.php";
-        $id = $_GET['nik'];
+        $nik = $_GET['nik'];
 
-        $sql = "DELETE FROM karyawan WHERE nik = $nik";
+        $sql = "DELETE FROM karyawan WHERE NIK = $nik";
 
         $result = mysqli_query($connection, $sql);
         if (!$result) {
@@ -35,7 +35,3 @@
         <?php
         }
         ?>
-
-
-    </div>
-</div>
